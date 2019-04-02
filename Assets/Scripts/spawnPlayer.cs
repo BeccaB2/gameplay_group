@@ -17,12 +17,8 @@ public class spawnPlayer : MonoBehaviour {
         spawnRot = gameObject.transform.eulerAngles;
 
         player = GameObject.Find("PlayerBase");
-        //player.transform.position = spawnPos;
-        //player.transform.rotation = Quaternion.Euler(spawnRot);
-        //Debug.Log(transform.position transform.rotation.eulerAngles);
+        
         player.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        //player.transform.rotation = Quaternion.Euler(0,+90,0);
-
     }
 	
 	// Update is called once per frame

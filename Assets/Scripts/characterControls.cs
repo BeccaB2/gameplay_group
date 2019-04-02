@@ -5,7 +5,7 @@ using UnityEngine;
 public class characterControls : MonoBehaviour
 {
     //PLAYER
-    public float health = 100;
+    public static float health = 100;
 
     //INPUT
     Vector2 input;
@@ -34,13 +34,13 @@ public class characterControls : MonoBehaviour
     bool grounded = false;
 
     // Collectables
-    public bool keyCollected = false;
-    public bool weaponCollected = false;
-    public bool doubleJumpActive = false;
-    public bool doubleSpeedActive = false;
-    public bool doubleStrengthActive = false;
+    public static bool keyCollected = false;
+    public static bool weaponCollected = false;
+    public static bool doubleJumpActive = false;
+    public static bool doubleSpeedActive = false;
+    public static bool doubleStrengthActive = false;
 
-    public int score = 0;
+    public static int score = 0;
 
     // Use this for initialization
     void Start()
@@ -60,6 +60,13 @@ public class characterControls : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
+        //Debug.Log("Gems =" + score);
+        //Debug.Log(health);
+
+        //if (keyCollected == true)
+        //{
+        //    Debug.Log("Got it");
+        //}
     }
     void ManageInput()
     {
@@ -204,7 +211,14 @@ public class characterControls : MonoBehaviour
 
         if (other.gameObject.CompareTag("Gem"))
         {
-            Destroy(other.gameObject);
+            other.GetComponent<PickedUp>().picked_up = true;
+            other.gameObject.SetActive(false);
+            //other.GetComponent<MeshRenderer>().enabled = false;
+            //other.GetComponent<BoxCollider>().enabled = false;
+
+            //Destroy(other.gameObject);
+            //other.gameObject.SetActive(false);
+            //other.gameObject.tag = "DestroyedGem";
             score ++;
         }
 

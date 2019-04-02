@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4771983541096748}
   - component: {fileID: 114147190008546702}
   - component: {fileID: 65306579188832208}
+  - component: {fileID: 114798391163457526}
   m_Layer: 0
   m_Name: DSpeed
   m_TagString: DSpeed
@@ -463,7 +464,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165709772540254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -84.35, y: 28.35, z: -7.11}
+  m_LocalPosition: {x: -7.8333387, y: 2.11, z: -9.731218}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4594777141058304}
@@ -1236,3 +1237,14 @@ MonoBehaviour:
   xRot: 0
   yRot: 20
   zRot: 0
+--- !u!114 &114798391163457526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165709772540254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b3ed77554a1ae4ab9bb8483dadbfc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

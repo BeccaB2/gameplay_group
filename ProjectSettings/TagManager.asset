@@ -10,6 +10,7 @@ TagManager:
   - Weapon
   - DStrength
   - Gem
+  - DestroyedGem
   layers:
   - Default
   - TransparentFX

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23563864779596950}
   - component: {fileID: 135509915641527282}
   - component: {fileID: 114567530466714336}
+  - component: {fileID: 114825682976778478}
   m_Layer: 0
   m_Name: DJump
   m_TagString: DJump
@@ -37,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993725593532458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.9366736, y: 29.51, z: -38.190872}
+  m_LocalPosition: {x: -2.392068, y: 2.75, z: -6.2536063}
   m_LocalScale: {x: 3.45991, y: 3.45991, z: 3.45991}
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,7 +98,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingUp: 1
+  speed: 2
   moveDistance: 1.5
+--- !u!114 &114825682976778478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1993725593532458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d16679f800ec542b5d32d6a11fc821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135509915641527282
 SphereCollider:
   m_ObjectHideFlags: 1
