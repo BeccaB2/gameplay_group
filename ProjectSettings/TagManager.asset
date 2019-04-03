@@ -11,6 +11,7 @@ TagManager:
   - DStrength
   - Gem
   - DestroyedGem
+  - Enemy
   layers:
   - Default
   - TransparentFX
