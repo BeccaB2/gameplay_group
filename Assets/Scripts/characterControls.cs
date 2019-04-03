@@ -24,10 +24,10 @@ public class characterControls : MonoBehaviour
     Vector3 velocity;
     Vector3 velocityXZ;
     public float accel = 15;
-    public float jumpVel = 15;
-    float turnSpeed;
-    float turnSpeedLow = 7;
-    float turnSpeedHigh = 20;
+    public float jumpVel = 20;
+    float turnSpeed = 20;
+    float turnSpeedLow = 22;
+    float turnSpeedHigh = 30;
 
     //GRAVITY
     float grav = 10;
@@ -105,9 +105,10 @@ public class characterControls : MonoBehaviour
 
     void DoMove()
     {
+        //direction the camera is facing
         intent = camF * input.y + camR * input.x;
 
-        float tS = velocity.magnitude / 5;
+        float tS = velocity.magnitude / speed;
         turnSpeed = Mathf.Lerp(turnSpeedHigh, turnSpeedLow, tS);
 
         if (input.magnitude > 0)
