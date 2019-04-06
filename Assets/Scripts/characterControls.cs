@@ -60,7 +60,7 @@ public class characterControls : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
-        //Debug.Log("Gems =" + score);
+        Debug.Log("Gems =" + score);
         //Debug.Log(health);
 
         //if (keyCollected == true)
@@ -212,14 +212,9 @@ public class characterControls : MonoBehaviour
 
         if (other.gameObject.CompareTag("Gem"))
         {
-            other.GetComponent<PickedUp>().picked_up = true;
+            //other.GetComponent<PickedUp>().picked_up = true;
             other.gameObject.SetActive(false);
-            //other.GetComponent<MeshRenderer>().enabled = false;
-            //other.GetComponent<BoxCollider>().enabled = false;
-
-            //Destroy(other.gameObject);
-            //other.gameObject.SetActive(false);
-            //other.gameObject.tag = "DestroyedGem";
+            GemCollectionScript.gemCountS1--;
             score ++;
         }
 

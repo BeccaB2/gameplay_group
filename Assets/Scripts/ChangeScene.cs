@@ -26,7 +26,7 @@ public class ChangeScene : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("HIT");
+            //Debug.Log("HIT");
             //Application.LoadLevel(scene);
             //SceneManager.LoadScene(sceneName: scene);
             SceneManager.LoadScene(scene, LoadSceneMode.Single);

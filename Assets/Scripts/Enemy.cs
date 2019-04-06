@@ -164,7 +164,7 @@ public class Enemy : MonoBehaviour
     void Attack()
     {
         characterControls.health -= attackDamage;
-        anim.SetBool()
+        //anim.SetBool()
 
     }
     IEnumerator Die()
