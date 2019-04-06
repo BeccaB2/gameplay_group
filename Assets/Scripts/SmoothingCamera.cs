@@ -41,8 +41,10 @@ public class SmoothingCamera : MonoBehaviour
     {
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
-        finalInputX = mouseX;
-        finalInputZ = mouseY;
+        float inputX = Input.GetAxis("RightStickHorizontal");
+        float inputZ = Input.GetAxis("RightStickVertical");
+        finalInputX = mouseX + inputX;
+        finalInputZ = mouseY + inputZ;
 
         rotX += finalInputZ * inputSensitivity * Time.deltaTime;
         rotY += finalInputX * inputSensitivity * Time.deltaTime;

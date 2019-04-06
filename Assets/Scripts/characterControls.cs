@@ -149,7 +149,7 @@ public class characterControls : MonoBehaviour
     {
         if (grounded)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") || Input.GetKey(KeyCode.Joystick1Button0))
             {
                 velocity.y = jumpVel;
                 anim.SetBool("Jump", true);

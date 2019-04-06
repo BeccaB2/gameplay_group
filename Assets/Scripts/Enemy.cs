@@ -46,8 +46,22 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DetectAttack();
-        Movement();
+        
+        if(!dead)
+        {
+            Movement();
+            DetectAttack();
+        }
+        else
+        {
+            if(anim.GetBool("idle") == true ||anim.GetBool("attack_03") == true || anim.GetBool("damage") == true)
+            {
+                anim.SetBool("idle", false);
+                anim.SetBool("attack_03", false);
+                anim.SetBool("damage", false);
+            }
+        }
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -76,7 +90,7 @@ public class Enemy : MonoBehaviour
             
             Debug.Log(noOfHits);
 
-            if (noOfHits >= health)
+            if (noOfHits >= health && !dead)
             {
                 StartCoroutine(Die());
             }
@@ -85,8 +99,6 @@ public class Enemy : MonoBehaviour
                 StartCoroutine(TakeDamage());
             }
         }
-
-
     }
 
     void Movement()
@@ -95,10 +107,14 @@ public class Enemy : MonoBehaviour
         var patrolDistance = Vector3.Distance(transform.position, currentPoint.position);
         var playerDistance = Vector3.Distance(transform.position, player.transform.position);
 
+        //Debug.Log(distance);
+        //Debug.Log(patrolDistance);
+        //Debug.Log(playerDistance);
+
         if (patrolling)
         {
             transform.position = Vector3.MoveTowards(transform.position, currentPoint.position, Time.deltaTime * speed);
-            anim.SetBool("walk", true);
+    
 
             if (transform.position == currentPoint.position)
             {
@@ -115,12 +131,10 @@ public class Enemy : MonoBehaviour
         {
             patrolling = false;
             transform.LookAt(player.transform);
-            anim.SetBool("run", true);
 
             if (distance < 5)
             {
-                anim.SetBool("run", false);
-                anim.SetBool("idle", true);
+
                 if (attackCoolDownTime > 0)
                 {
                     attackCoolDownTime -= Time.deltaTime * speed;
@@ -128,7 +142,12 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     attackCoolDownTime = attackCoolDownTimeMain;
-                    Attack();
+
+                    if(anim.GetBool("dizzy") != true && !dead)
+                    {
+                         StartCoroutine(Attack());
+                    }
+                    
                 }
                 canMove = false;
             }
@@ -140,52 +159,78 @@ public class Enemy : MonoBehaviour
                 {
                     patrolling = true;
                     attackCoolDownTime = attackCoolDownTimeMain;
-                    anim.SetBool("idle", false);
-                    anim.SetBool("run", false);
-                    anim.SetBool("walk", true);
                     Debug.Log("patrol");
                     retreat = true;
                 }
             }
-
             if (canMove)
             {
                 transform.position += transform.forward * chaseSpeed * Time.deltaTime;
-                anim.SetBool("walk", false);
-                anim.SetBool("idle", false);
-                anim.SetBool("run", true);
             }
-
-
         }
-
     }
 
-    void Attack()
+    IEnumerator Attack()
     {
+        anim.SetBool("idle", false);
+        anim.SetBool("walk", false);
+        anim.SetBool("run", false);
+        anim.SetBool("attack_03", true);
+        
+        yield return new WaitForSeconds(1);
         characterControls.health -= attackDamage;
-        //anim.SetBool()
+        anim.SetBool("attack_03", false);
+        if(!dead)
+        {
+           anim.SetBool("idle", true);
+        }
+        
+        Debug.Log(characterControls.health);
 
     }
     IEnumerator Die()
     {
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("idle", false);
-        anim.SetBool("run", false);
-        anim.SetBool("walk", false);
+        //anim.SetBool("run", false);
+        //anim.SetBool("walk", false);
+        anim.SetBool("damage", false);
+        anim.SetBool("attack_03", false);
         anim.SetBool("die", true);
+        //yield return new WaitForSeconds();
         dead = true;
+    }
+
+    IEnumerator Dizzy()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("idle", false);
+        //anim.SetBool("run", false);
+        //anim.SetBool("walk", false);
+        anim.SetBool("damage", false);
+        anim.SetBool("attack_03", false);
+        anim.SetBool("dizzy", true);
+
+
     }
 
     IEnumerator TakeDamage()
     {
         yield return new WaitForSeconds(0.5f);
+        anim.SetBool("run", false);
+        anim.SetBool("walk", false);
+        anim.SetBool("idle", false);
+        anim.SetBool("attack_03", false);
         anim.SetBool("damage", true);
+        
         canAttack = false;
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("damage", false);
-        anim.SetBool("run", false);
-        anim.SetBool("idle", true);
+        if(!dead)
+        {
+            anim.SetBool("idle", true);
+        }
+        
         canAttack = true;
     }
 }
