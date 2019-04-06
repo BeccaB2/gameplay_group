@@ -114,8 +114,12 @@ public class characterControls : MonoBehaviour
         if (input.magnitude > 0)
         {
             //Debug.Log("yes");
-            Quaternion rot = Quaternion.LookRotation(intent);
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
+            if(GameObject.Find("Spline").GetComponent<EnterSpline>().onSpline == false)
+            {
+                Quaternion rot = Quaternion.LookRotation(intent);
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
+            }
+            
             anim.SetBool("Running", true);
             
         }
