@@ -128,18 +128,23 @@ public class characterControls : MonoBehaviour
         float tS = velocity.magnitude / speed;
         turnSpeed = Mathf.Lerp(turnSpeedHigh, turnSpeedLow, tS);
 
-        if (input.magnitude > 0 && grounded)
+        if (input.magnitude > 0)
         {
+            if (grounded)
+            {
+                Instantiate(runCloud, transform.position, runCloud.transform.rotation);
+                anim.SetBool("Running", true);
+            } 
             Quaternion rot = Quaternion.LookRotation(intent);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
-            Instantiate(runCloud, transform.position, runCloud.transform.rotation);
-            anim.SetBool("Running", true);
-            
         }
-        else
+        else if(input.magnitude <= 0 && grounded)
         {
+
             anim.SetBool("Running", false);
+
         }
+
 
         velocityXZ = velocity;
         velocityXZ.y = 0;
@@ -170,6 +175,7 @@ public class characterControls : MonoBehaviour
             {
                 velocity.y = jumpVel;
                 anim.SetBool("Jump", true);
+                anim.SetBool("Running", false);
                 jumped = true;
             }
         }
