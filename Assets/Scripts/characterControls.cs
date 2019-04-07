@@ -38,6 +38,7 @@ public class characterControls : MonoBehaviour
     public static bool weaponCollected = false;
     public static bool doubleJumpActive = false;
     public static bool doubleSpeedActive = false;
+    public static bool doubleSpeedPickedUp = false;
     public static bool doubleStrengthActive = false;
 
     public static int score = 0;
@@ -45,6 +46,7 @@ public class characterControls : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -60,13 +62,21 @@ public class characterControls : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
-        Debug.Log("Gems =" + score);
+        //Debug.Log("Gems =" + score);
         //Debug.Log(health);
 
-        //if (keyCollected == true)
-        //{
-        //    Debug.Log("Got it");
-        //}
+        //Debug.Log(doubleSpeedActive);
+        //Debug.Log(doubleSpeedPickedUp);
+        //Debug.Log(doubleJumpActive);
+
+        if (doubleSpeedActive == true)
+        {
+            speed = 30;
+        }
+        else
+        {
+            speed = 15;
+        }
     }
     void ManageInput()
     {
@@ -114,7 +124,8 @@ public class characterControls : MonoBehaviour
         if (input.magnitude > 0)
         {
             //Debug.Log("yes");
-            if(GameObject.Find("Spline").GetComponent<EnterSpline>().onSpline == false)
+
+            if(EnterSpline.onSpline == false)
             {
                 Quaternion rot = Quaternion.LookRotation(intent);
                 player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
@@ -201,27 +212,35 @@ public class characterControls : MonoBehaviour
         if(other.gameObject.CompareTag("DSpeed"))
         {
             Destroy(other.gameObject);
-            doubleSpeedActive = true;
-            
-            // Timed?
+            doubleSpeedPickedUp = true;
+
+            // Timed
+            StartCoroutine(SpeedRoutine());
         }
 
         if (other.gameObject.CompareTag("DStrength"))
         {
             Destroy(other.gameObject);
             doubleStrengthActive = true;
-
-            // Timed?
+        
+            // Timed
         }
 
         if (other.gameObject.CompareTag("Gem"))
         {
             //other.GetComponent<PickedUp>().picked_up = true;
             other.gameObject.SetActive(false);
-            GemCollectionScript.gemCountS1--;
+            other.gameObject.tag = "DestroyedGem";
             score ++;
         }
 
+    }
+
+    IEnumerator SpeedRoutine()
+    {
+        doubleSpeedActive = true;
+        yield return new WaitForSeconds(2);
+        doubleSpeedActive = false;
     }
 }
 

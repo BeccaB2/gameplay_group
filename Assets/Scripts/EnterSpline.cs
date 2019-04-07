@@ -7,13 +7,14 @@ public class EnterSpline : MonoBehaviour {
     public Camera normalCam;
     public Camera sideCam;
 
-    public bool onSpline = false;
+    public static bool onSpline = false;
 
     // Use this for initialization
     void Start ()
     {
-        normalCam.enabled = true;
-        sideCam.enabled = false;
+        //normalCam.enabled = true;
+        //sideCam.enabled = false;
+        //onSpline = false;
 	}
 	
 	// Update is called once per frame
@@ -27,8 +28,8 @@ public class EnterSpline : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            normalCam.enabled = false;
-            sideCam.enabled = true;
+            normalCam.gameObject.SetActive(false);
+            sideCam.gameObject.SetActive(true);
             onSpline = true;
         }
 
@@ -38,8 +39,8 @@ public class EnterSpline : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            normalCam.enabled = true;
-            sideCam.enabled = false;
+            normalCam.gameObject.SetActive(true);
+            sideCam.gameObject.SetActive(false);
             onSpline = false;
         }
 

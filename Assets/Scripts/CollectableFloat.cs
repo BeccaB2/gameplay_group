@@ -5,7 +5,6 @@ using UnityEngine;
 public class CollectableFloat : MonoBehaviour
 {
     // Finds position of the object
-    private Vector3 startPos;
     float yPos;
 
     // Checks the direction of travel
@@ -18,7 +17,6 @@ public class CollectableFloat : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        startPos = transform.position;
         yPos = transform.position.y;
     }
 	

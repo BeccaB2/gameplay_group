@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class FallingPlatform : MonoBehaviour
 {
-    public float duration = 0.5f;
-    public float counter = 0;
+    public static float duration = 1.5f;
+    public static float counter = 0;
 
-    public float speed = 2;
+    public static float speed = 0.5f;
+
+    Renderer platform;
 
     // Use this for initialization
     void Start ()
     {
-       
+        platform = GetComponent<Renderer>();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
+		// Check if player respawned / set platforms back?
 	}
 
     void OnTriggerEnter(Collider other)
@@ -32,7 +34,6 @@ public class FallingPlatform : MonoBehaviour
 
     IEnumerator Fade()
     {
-        Renderer platform = GetComponent<Renderer>();
         float diffAlpha = (0 - platform.material.color.a);
 
         int targetAlpha = 0;
@@ -48,7 +49,7 @@ public class FallingPlatform : MonoBehaviour
 
         platform.material.color = new Color(platform.material.color.r, platform.material.color.g, platform.material.color.b, targetAlpha);
 
-        if(platform.material.color.a == 0)
+        if(platform.material.color.a <= 200)
         {
             platform.transform.gameObject.SetActive(false);
         }

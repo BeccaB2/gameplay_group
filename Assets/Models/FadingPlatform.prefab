@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23425208858520862}
   - component: {fileID: 65981091258124922}
   - component: {fileID: 65646688043746780}
-  - component: {fileID: 114496002054602016}
+  - component: {fileID: 114860924676986162}
   m_Layer: 0
   m_Name: FadingPlatform
   m_TagString: Untagged
@@ -38,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1181171421202836}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -57, y: 40.106075, z: -48.180923}
-  m_LocalScale: {x: 6.37499, y: 1.21156, z: 8.51184}
+  m_LocalPosition: {x: -61, y: 40.106075, z: -48.180923}
+  m_LocalScale: {x: 14.65516, y: 1.21156, z: 8.51184}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,8 +96,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.3342168, z: 0.99999994}
-  m_Center: {x: 0, y: 0.16710871, z: 0.00000033612278}
+  m_Size: {x: 1, y: 2.9398801, z: 0.9999999}
+  m_Center: {x: 0, y: 0.96993953, z: 0.00000033612275}
 --- !u!65 &65981091258124922
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -110,7 +110,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114496002054602016
+--- !u!114 &114860924676986162
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,6 +121,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6dc1f0ccc722941b511f53d3b44ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.5
-  counter: 0
-  speed: 2

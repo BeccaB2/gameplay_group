@@ -7,41 +7,51 @@ public class MoveOnSpline : MonoBehaviour
     public Transform[] waypointsList;
 
     public int currentWaypoint = 0;
-    Transform targetWaypoint;
+    public Transform targetWaypoint;
 
     public float speed;
 
-    GameObject player;
+    public GameObject player;
     float characterScriptSpeed;
 
     // Use this for initialization
     void Start ()
     {
         player = GameObject.Find("Mage");
-        characterScriptSpeed = player.GetComponent<characterControls>().speed;
-        waypointsList = GetComponentsInChildren<Transform>();
-        //speed = characterScriptSpeed;
-        speed = 30;
+        //characterScriptSpeed = player.GetComponent<characterControls>().speed;
+        //waypointsList = GetComponentsInChildren<Transform>();
+        
+        // speed = characterScriptSpeed;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
-        if (GameObject.Find("Spline").GetComponent<EnterSpline>().onSpline == true)
+        if (characterControls.doubleSpeedActive == true)
         {
-            if (currentWaypoint < waypointsList.Length)
+            speed = player.GetComponent<characterControls>().speed;
+        }
+        else
+        {
+            speed = 15;
+        }
+
+        if (EnterSpline.onSpline == true)
+        {
+
+            if (currentWaypoint < this.waypointsList.Length)
             {
                 if (targetWaypoint == null)
                 {
                     targetWaypoint = waypointsList[currentWaypoint];
                 }
 
-                if (Input.GetKeyDown(KeyCode.W)/* controller?? */)
+                if (Input.GetKey(KeyCode.W)/* controller?? */)
                 {
                     player.transform.position = Vector3.MoveTowards(player.transform.position, targetWaypoint.position, speed * Time.deltaTime);
 
-                    //Vector3 targetRotate = new Vector3(targetWaypoint.rotation.x, player.transform.rotation.y, targetWaypoint.rotation.z);
-                    //player.transform.LookAt(targetWaypoint.position,transform.up);
+                    Vector3 targetRotate = new Vector3(targetWaypoint.position.x, player.transform.position.y, targetWaypoint.position.z);
+                    player.transform.LookAt(targetRotate);
                 }
 
                 if (player.transform.position == targetWaypoint.position)
@@ -50,7 +60,10 @@ public class MoveOnSpline : MonoBehaviour
                     targetWaypoint = waypointsList[currentWaypoint];
                 }
             }
+         
+            // Check if respawned to reset spline?
         }
 
     }
-}
+
+ }
