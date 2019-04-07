@@ -12,6 +12,9 @@ public class characterControls : MonoBehaviour
     public CharacterController controller;
     public Animator anim;
     public GameObject player;
+    public bool canInput;
+    public GameObject dustCloud;
+    public GameObject runCloud;
 
     //CAMERA
     public Transform cam;
@@ -28,6 +31,7 @@ public class characterControls : MonoBehaviour
     float turnSpeed = 20;
     float turnSpeedLow = 22;
     float turnSpeedHigh = 30;
+    bool jumped;
 
     //GRAVITY
     float grav = 10;
@@ -45,6 +49,7 @@ public class characterControls : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        canInput = true;
     }
 
     // Update is called once per frame
@@ -53,14 +58,19 @@ public class characterControls : MonoBehaviour
         ManageInput();
         CalculateCamera();
         CalculateGround();
-        DoMove();
-        DoGravity();
-        DoJump();
-        DoAttack();
+        if(canInput)
+        {
+            DoMove();
+            DoGravity();
+            DoJump();
+            DoAttack();
+        }
+        
+        
 
         controller.Move(velocity * Time.deltaTime);
 
-        Debug.Log("Gems =" + score);
+        //Debug.Log("Gems =" + score);
         //Debug.Log(health);
 
         //if (keyCollected == true)
@@ -91,11 +101,18 @@ public class characterControls : MonoBehaviour
         if (Physics.Raycast(player.transform.position + Vector3.up * 0.1f, -Vector3.up, out hit, 0.2f))
         {
             grounded = true;
-
+            
             if (anim.GetBool("Jump") == true)
             {
+                Instantiate(dustCloud, transform.position, dustCloud.transform.rotation);
                 anim.SetBool("Jump", false);
             }
+            
+            if(anim.GetBool("DoubleJump") == true)
+            {
+                anim.SetBool("DoubleJump", false);
+            }
+            jumped = false;
         }
         else
         {
@@ -111,11 +128,11 @@ public class characterControls : MonoBehaviour
         float tS = velocity.magnitude / speed;
         turnSpeed = Mathf.Lerp(turnSpeedHigh, turnSpeedLow, tS);
 
-        if (input.magnitude > 0)
+        if (input.magnitude > 0 && grounded)
         {
-            //Debug.Log("yes");
             Quaternion rot = Quaternion.LookRotation(intent);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
+            Instantiate(runCloud, transform.position, runCloud.transform.rotation);
             anim.SetBool("Running", true);
             
         }
@@ -149,17 +166,23 @@ public class characterControls : MonoBehaviour
     {
         if (grounded)
         {
-            if (Input.GetButtonDown("Jump") || Input.GetKey(KeyCode.Joystick1Button0))
+            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped)
             {
                 velocity.y = jumpVel;
                 anim.SetBool("Jump", true);
+                jumped = true;
             }
+        }
+        else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && doubleJumpActive && jumped)
+        {
+            anim.SetBool("DoubleJump", true);
+            velocity.y = jumpVel + 20;
         }
     }
 
     void DoAttack()
     {
-        if(Input.GetButtonDown("Attack1"))
+        if(Input.GetButtonDown("Attack1") || Input.GetKey(KeyCode.Joystick1Button2))
         {
             StartCoroutine(Attack1());
         }
