@@ -35,7 +35,7 @@ public class characterControls : MonoBehaviour
 
     //GRAVITY
     float grav = 10;
-    bool grounded = false;
+    public bool grounded;
 
     // Collectables
     public static bool keyCollected = false;
@@ -101,7 +101,7 @@ public class characterControls : MonoBehaviour
         if (Physics.Raycast(player.transform.position + Vector3.up * 0.1f, -Vector3.up, out hit, 0.2f))
         {
             grounded = true;
-            
+            jumped = false;
             if (anim.GetBool("Jump") == true)
             {
                 Instantiate(dustCloud, transform.position, dustCloud.transform.rotation);
@@ -112,7 +112,7 @@ public class characterControls : MonoBehaviour
             {
                 anim.SetBool("DoubleJump", false);
             }
-            jumped = false;
+            
         }
         else
         {
@@ -128,17 +128,20 @@ public class characterControls : MonoBehaviour
         float tS = velocity.magnitude / speed;
         turnSpeed = Mathf.Lerp(turnSpeedHigh, turnSpeedLow, tS);
 
-        if (input.magnitude > 0 && grounded)
+        if (input.magnitude > 0)
         {
             Quaternion rot = Quaternion.LookRotation(intent);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
-            Instantiate(runCloud, transform.position, runCloud.transform.rotation);
-            anim.SetBool("Running", true);
-            
-        }
-        else
-        {
-            anim.SetBool("Running", false);
+
+            if(grounded)
+            {
+                anim.SetBool("Running", true);
+                Instantiate(runCloud, transform.position, runCloud.transform.rotation);
+            }
+            else
+            {
+                anim.SetBool("Running", false);
+            }
         }
 
         velocityXZ = velocity;
@@ -157,6 +160,8 @@ public class characterControls : MonoBehaviour
         else
         {
             velocity.y -= grav * Time.deltaTime;
+                        //anim.SetBool("Running", false);
+
         }
 
         velocity.y = Mathf.Clamp(velocity.y, -10, 10);

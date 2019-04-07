@@ -171,7 +171,6 @@ public class Enemy : MonoBehaviour
 
             if (distance < 5)
             {
-
                 if (attackCoolDownTime > 0)
                 {
                     attackCoolDownTime -= Time.deltaTime * speed;
