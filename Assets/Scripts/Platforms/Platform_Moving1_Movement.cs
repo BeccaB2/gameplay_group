@@ -9,10 +9,11 @@ public class Platform_Moving1_Movement : MonoBehaviour {
 	public float speed = 10.0f;
     public bool constant = false;
 	public bool platform_move_forward = false;
-
+    public bool platform_move_back = false;
 
     private int location = 0;
     private bool hit_check = false;
+
 
 	public GameObject target0;
 	public GameObject target1;
@@ -115,26 +116,31 @@ public class Platform_Moving1_Movement : MonoBehaviour {
 	void OnTriggerEnter (Collider other)
 	{
         
-            if (other.gameObject == player)
-            {
-                player.transform.parent = this.transform;
-            if (!constant)
-            {
-                if (transform.position == target0.transform.position)
-                {
-                    StartCoroutine("Platform1Delay");
-                }
-                else
-                {
-                    StartCoroutine("Platform2Delay");
-                }
-            }
-		}
+         if (other.gameObject == player)
+         {
+             player.transform.parent = this.transform;
+             if (!constant)
+             {
+                 if (transform.position == target0.transform.position)
+                 {
+                     StartCoroutine("Platform1Delay");
+                 }
+                 else
+                 {
+                     StartCoroutine("Platform2Delay");
+                 }
+             }
+		 }
 	}
 
 	void OnTriggerExit (Collider other)
 	{
 		player.transform.parent = null;
+
+        if (platform_move_back)
+        {
+            platform_move_forward = false;
+        }
 	}
 
     public void SetHitCheck(bool hit_player)

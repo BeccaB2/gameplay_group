@@ -9,6 +9,7 @@ public class Platform_Lift1_Movement : MonoBehaviour {
 
 	private GameObject player;
 
+    public bool disable_parent = false;
     private bool hit_check = false;
 	public float speed = 10.0f;
 	private bool platform_move = false;
@@ -45,12 +46,19 @@ public class Platform_Lift1_Movement : MonoBehaviour {
 	void OnTriggerEnter (Collider other)
 	{
 		
-		if (other.gameObject == player)
+		if (other.gameObject == player && !disable_parent)
 		{
+            Debug.Log("Player Is on Lift");
 			player.transform.parent = this.transform;
 			StartCoroutine("PlatformDelay");
 		}
-	}
+
+        if (other.gameObject == player && disable_parent)
+        {
+            Debug.Log("Player in collider");
+            StartCoroutine("PlatformDelay");
+        }
+    }
 
 	void OnTriggerExit (Collider other)
 	{
