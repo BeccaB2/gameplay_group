@@ -15,6 +15,7 @@ public class characterControls : MonoBehaviour
     public bool canInput;
     public GameObject dustCloud;
     public GameObject runCloud;
+    public static bool dead;
 
     //CAMERA
     public Transform cam;
@@ -55,10 +56,16 @@ public class characterControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(health <= 0 && !dead)
+        {
+            dead = true;
+            anim.SetTrigger("dead");
+        }
+
         ManageInput();
         CalculateCamera();
         CalculateGround();
-        if(canInput)
+        if(canInput && !dead)
         {
             DoMove();
             DoGravity();
@@ -66,8 +73,6 @@ public class characterControls : MonoBehaviour
             DoAttack();
         }
         
-        
-
         controller.Move(velocity * Time.deltaTime);
 
         //Debug.Log("Gems =" + score);
@@ -101,6 +106,7 @@ public class characterControls : MonoBehaviour
         if (Physics.Raycast(player.transform.position + Vector3.up * 0.1f, -Vector3.up, out hit, 0.2f))
         {
             grounded = true;
+            Enemy.canMove = true;
             
             if (anim.GetBool("Jump") == true)
             {
@@ -117,6 +123,8 @@ public class characterControls : MonoBehaviour
         else
         {
             grounded = false;
+            Enemy.canMove = false;
+            
         }
     }
 

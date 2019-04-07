@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     private float currentHitDistance;
     private static bool dead;
     private bool retreat;
-    private bool canMove;
+    public static bool canMove;
     private bool dizzy;
 
     //customisable attributes
@@ -50,7 +50,16 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Debug.Log(canMove);
-        if (!dead || !dizzy)
+        if(characterControls.dead)
+        {
+            anim.SetBool("idle", false);
+            anim.SetBool("attack_03", false);
+            anim.SetBool("damage", false);
+            anim.SetBool("run", false);
+            anim.SetBool("walk", false);
+            anim.SetTrigger("dance");
+        }
+        else if (!dead || !dizzy)
         {
             Movement();
             DetectAttack();
@@ -163,7 +172,7 @@ public class Enemy : MonoBehaviour
            
             
             patrolling = false;
-            if(!dizzy)
+            if(!dead)
             {
                 transform.LookAt(player.transform);
             }
@@ -171,6 +180,7 @@ public class Enemy : MonoBehaviour
 
             if (distance < 5)
             {
+                anim.SetBool("run", false);
 
                 if (attackCoolDownTime > 0)
                 {
@@ -179,9 +189,15 @@ public class Enemy : MonoBehaviour
                 else if(!dizzy)
                 {
                     attackCoolDownTime = attackCoolDownTimeMain;
+                    if(anim.GetBool("damage") == false)
+                    {
+                        StartCoroutine(Attack());
+                    }
+                }
 
-                         StartCoroutine(Attack());
-
+                if (anim.GetBool("run") == true)
+                {
+                    anim.SetBool("run", false);
                 }
                 canMove = false;
             }
