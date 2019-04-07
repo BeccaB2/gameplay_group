@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class Spinner_platform_trigger : MonoBehaviour {
 
-	public GameObject platform;
-	public GameObject player;
+	//public GameObject platform;
+	private GameObject player;
 
-	private float speed = 20.0f;
-	Quaternion rotation;
+	public float speed = 20.0f;
 
 	void Start ()
 	{
-		
 		player = GameObject.FindGameObjectWithTag("Player");
-		platform.transform.SetParent (this.transform, false);
+		transform.SetParent (this.transform, false);
 	}
 
 	void Update()
@@ -29,7 +27,7 @@ public class Spinner_platform_trigger : MonoBehaviour {
 
 		if (other.gameObject == player)
 		{
-			player.transform.parent = platform.transform;
+			player.transform.parent = transform;
 		}
 	}
 
