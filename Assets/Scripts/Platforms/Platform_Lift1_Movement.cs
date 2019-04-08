@@ -46,14 +46,14 @@ public class Platform_Lift1_Movement : MonoBehaviour {
 	void OnTriggerEnter (Collider other)
 	{
 		
-		if (other.gameObject == player && !disable_parent)
+		if (other.tag == "Player" && !disable_parent)
 		{
             Debug.Log("Player Is on Lift");
 			player.transform.parent = this.transform;
 			StartCoroutine("PlatformDelay");
 		}
 
-        if (other.gameObject == player && disable_parent)
+        if (other.tag == "Player" && disable_parent)
         {
             Debug.Log("Player in collider");
             StartCoroutine("PlatformDelay");
@@ -62,7 +62,7 @@ public class Platform_Lift1_Movement : MonoBehaviour {
 
 	void OnTriggerExit (Collider other)
 	{
-        if (other.gameObject == player)
+        if (other.tag == "Player")
         {
             player.transform.parent = null;
             StartCoroutine("PlatformBackDelay");
