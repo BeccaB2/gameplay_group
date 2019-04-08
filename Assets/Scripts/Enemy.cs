@@ -64,14 +64,14 @@ public class Enemy : MonoBehaviour
             Movement();
             DetectAttack();
         }
-        else if (anim.GetBool("idle") == true || anim.GetBool("attack_03") == true || anim.GetBool("damage") == true || anim.GetBool("dizzy") == true || anim.GetBool("run") == true && anim.GetBool("walk") == true)
-        {
-            anim.SetBool("idle", false);
-            anim.SetBool("attack_03", false);
-            anim.SetBool("damage", false);
-            anim.SetBool("run", false);
-            anim.SetBool("walk", false);
-        }
+        //else if (anim.GetBool("idle") == true || anim.GetBool("attack_03") == true || anim.GetBool("damage") == true || anim.GetBool("dizzy") == true || anim.GetBool("run") == true && anim.GetBool("walk") == true)
+        //{
+        //    anim.SetBool("idle", false);
+        //    anim.SetBool("attack_03", false);
+        //    anim.SetBool("damage", false);
+        //    anim.SetBool("run", false);
+        //    anim.SetBool("walk", false);
+        //}
 
         if (dead)
         {
@@ -189,7 +189,7 @@ public class Enemy : MonoBehaviour
                 else if(!dizzy)
                 {
                     attackCoolDownTime = attackCoolDownTimeMain;
-                    if(anim.GetBool("damage") == false)
+                    if(anim.GetBool("run") == false)
                     {
                         StartCoroutine(Attack());
                     }

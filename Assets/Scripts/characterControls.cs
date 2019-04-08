@@ -32,7 +32,7 @@ public class characterControls : MonoBehaviour
     float turnSpeed = 20;
     float turnSpeedLow = 22;
     float turnSpeedHigh = 30;
-    bool jumped;
+     bool jumped;
 
     //GRAVITY
     float grav = 10;
@@ -41,7 +41,7 @@ public class characterControls : MonoBehaviour
     // Collectables
     public static bool keyCollected = false;
     public static bool weaponCollected = false;
-    public static bool doubleJumpActive = false;
+    public static bool doubleJumpActive = true;
     public static bool doubleSpeedActive = false;
     public static bool doubleStrengthActive = false;
 
