@@ -16,6 +16,9 @@ public class characterControls : MonoBehaviour
     public GameObject dustCloud;
     public GameObject runCloud;
     public static bool dead;
+    public float attackCoolDownTime;
+    public float attackCoolDownTimeMain;
+    public static bool isAttacking;
 
     //CAMERA
     public Transform cam;
@@ -25,7 +28,7 @@ public class characterControls : MonoBehaviour
     //PHYSICS
     public float speed = 15;
     Vector3 intent;
-    Vector3 velocity;
+    public static Vector3 velocity;
     Vector3 velocityXZ;
     public float accel = 15;
     public float jumpVel = 20;
@@ -52,6 +55,7 @@ public class characterControls : MonoBehaviour
     void Start()
     {
         canInput = true;
+        attackCoolDownTime = 0f;
     }
 
     // Update is called once per frame
@@ -60,6 +64,7 @@ public class characterControls : MonoBehaviour
         if(health <= 0 && !dead)
         {
             dead = true;
+            velocity = new Vector3(0,0,0);
             anim.SetTrigger("dead");
         }
 
@@ -75,13 +80,6 @@ public class characterControls : MonoBehaviour
         }
         
         controller.Move(velocity * Time.deltaTime);
-
-        //Debug.Log("Gems =" + score);
-        //Debug.Log(health);
-
-        //Debug.Log(doubleSpeedActive);
-        //Debug.Log(doubleSpeedPickedUp);
-        //Debug.Log(doubleJumpActive);
 
         if (doubleSpeedActive == true)
         {
@@ -137,6 +135,11 @@ public class characterControls : MonoBehaviour
         }
     }
 
+    public void getKnockedBack(Vector3 direction)
+    {
+        characterControls.velocity = direction * 10;
+    }
+
     void DoMove()
     {
         //direction the camera is facing
@@ -156,20 +159,18 @@ public class characterControls : MonoBehaviour
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
             //Debug.Log("yes");
 
-            if(EnterSpline.onSpline == false)
+            if (EnterSpline.onSpline == false)
             {
-                Quaternion rot = Quaternion.LookRotation(intent);
+                rot = Quaternion.LookRotation(intent);
                 player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
             }
-            
-            anim.SetBool("Running", true);
-            
+
+            //anim.SetBool("Running", true);
+
         }
         else if(input.magnitude <= 0 && grounded)
         {
-
             anim.SetBool("Running", false);
-
         }
 
 
@@ -205,6 +206,13 @@ public class characterControls : MonoBehaviour
                 anim.SetBool("Running", false);
                 jumped = true;
             }
+            //else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped && input.magnitude >0)
+            //{
+            //    velocity.y = jumpVel;
+            //    anim.SetBool("Jump", true);
+            //    anim.SetBool("Running", false);
+            //    jumped = true;
+            //}
         }
         else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && doubleJumpActive && jumped)
         {
@@ -215,17 +223,27 @@ public class characterControls : MonoBehaviour
 
     void DoAttack()
     {
-        if(Input.GetButtonDown("Attack1") || Input.GetKey(KeyCode.Joystick1Button2))
+        if(attackCoolDownTime > 0)
         {
+            attackCoolDownTime -= Time.deltaTime;
+        }
+        else if(Input.GetButtonDown("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2))
+        {
+            attackCoolDownTime = attackCoolDownTimeMain;
             StartCoroutine(Attack1());
         }
     }
 
     IEnumerator Attack1()
     {
+        isAttacking = true;
+        yield return new WaitForSeconds(0.01f);
+        isAttacking = false;
         anim.SetBool("Attack1", true);
+        
         yield return new WaitForSeconds(1);
         anim.SetBool("Attack1", false);
+        
     }
 
     void OnTriggerEnter(Collider other)

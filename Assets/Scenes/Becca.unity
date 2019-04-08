@@ -964,6 +964,9 @@ MonoBehaviour:
   controller: {fileID: 1033666328}
   anim: {fileID: 1033666325}
   player: {fileID: 1033666324}
+  canInput: 0
+  dustCloud: {fileID: 1764697458114656, guid: 4d1d66e267d323c40aecf68da30f5dc3, type: 2}
+  runCloud: {fileID: 1178652647035966, guid: d1b44906895da4e4fa8316005a257c4c, type: 2}
   cam: {fileID: 1130051270}
   speed: 15
   accel: 10
