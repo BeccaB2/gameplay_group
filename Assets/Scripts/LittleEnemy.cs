@@ -7,7 +7,6 @@ public class LittleEnemy : MonoBehaviour
 {
     //Input
     public GameObject player;
-    public CharacterController ccPlayer;
     public Transform firePoint;
     public Animator anim;
 
@@ -21,10 +20,11 @@ public class LittleEnemy : MonoBehaviour
     private Vector3 origin;
     private Vector3 direction;
     private float currentHitDistance;
-    private static bool dead;
+    private bool dead;
     private bool retreat;
     public static bool canMove;
     private bool dizzy;
+    bool counted = false;
 
 
     //customisable attributes
@@ -52,6 +52,7 @@ public class LittleEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(noOfHits);
         //Debug.Log(canMove);
         if (characterControls.dead)
         {
@@ -68,8 +69,11 @@ public class LittleEnemy : MonoBehaviour
             DetectAttack();
         }
 
-        if (dead)
+        if (dead && !counted)
         {
+            counted = true;
+            Debug.Log("dead");
+            characterControls.noOfEnemiesKilled += 1;
             Destroy(gameObject, despawnTime);
         }
     }
@@ -178,7 +182,7 @@ public class LittleEnemy : MonoBehaviour
                 canMove = false;
                 if (attackCoolDownTime > 0)
                 {
-                    attackCoolDownTime -= Time.deltaTime * speed;
+                    attackCoolDownTime -= Time.deltaTime;
                 }
                 else if (!dizzy)
                 {
@@ -234,13 +238,6 @@ public class LittleEnemy : MonoBehaviour
                 anim.SetBool("idle", true);
             }
         }
-    }
-
-    void Knockback()
-    {
-        var moveDirection = player.transform.position - transform.position;
-        var startTime = Time.time;
-        ccPlayer.SimpleMove(moveDirection * thrust);
     }
 
     IEnumerator Die()

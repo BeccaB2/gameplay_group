@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/StarterIsland.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/StarterIsland_Jake.unity
+    guid: c23ff290a9eb25740b73447f46a945a1
   - enabled: 1
-    path: Assets/Scenes/MiddlePark.unity
-    guid: 99ff2808a9d219741935695f1aceeb29
+    path: Assets/Scenes/MiddlePark_Jake.unity
+    guid: e467beaf53803004c93e6d23f7388ac5
+  - enabled: 1
+    path: Assets/Scenes/BossLevel.unity
+    guid: 9389b9a26c12d454e942cb5577609bbc
   m_configObjects: {}

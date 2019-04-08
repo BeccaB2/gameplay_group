@@ -34,7 +34,7 @@ public class characterControls : MonoBehaviour
     public static Vector3 velocity;
     Vector3 velocityXZ; 
     public float accel = 15;
-    public float jumpVel = 20;
+    public float jumpVel = 40;
     float turnSpeed = 20;
     float turnSpeedLow = 22;
     float turnSpeedHigh = 30;
@@ -47,11 +47,11 @@ public class characterControls : MonoBehaviour
     // Collectables
     public static bool keyCollected = false;
     public static bool weaponCollected = false;
-    public static bool doubleJumpActive = false;
+    public static bool doubleJumpActive = true;
     public static bool doubleSpeedActive = false;
     public static bool doubleSpeedPickedUp = false;
     public static bool doubleStrengthActive = false;
-
+    public static int noOfEnemiesKilled = 0;
     public static int score = 0;
 
     // Use this for initialization
@@ -232,6 +232,7 @@ public class characterControls : MonoBehaviour
 
     void DoAttack()
     {
+        Debug.Log(noOfEnemiesKilled);
             if (attackCoolDownTime > 0)
             {
                 attackCoolDownTime -= Time.deltaTime;
