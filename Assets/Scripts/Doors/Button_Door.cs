@@ -24,6 +24,7 @@ public class Button_Door: MonoBehaviour {
     //cameras
     public GameObject main_camera;
     public GameObject key_camera;
+    public GameObject door_camera;
 
     private GameObject player;
 
@@ -63,10 +64,10 @@ public class Button_Door: MonoBehaviour {
             if (other.gameObject == player && interaction && !triggered && characterControls.keyCollected == true)
 		{
             float desiredAngle = transform.eulerAngles.y;
-            //player_character.GetComponent<Character_Movement>().SetDisabled (true);
+            player.GetComponent<characterControls>().canInput = false;
             player.transform.position = new Vector3(player_target.transform.position.x, player.transform.position.y, player_target.transform.position.z);
             player.transform.rotation = Quaternion.Euler(0, desiredAngle, 0);
-            //main_camera.GetComponent<MainCamController>().SetDoorCam(1);
+            DoorCam();
             StartCoroutine("ButtonDelay");
             triggered = true;
         }
@@ -93,11 +94,12 @@ public class Button_Door: MonoBehaviour {
 
             if (button.transform.position == button_target.transform.position)
             {
-                //	main_camera.GetComponent<MainCamController>().SetDoorCam(2);
                 SetColourRed();
                 StartCoroutine("DoorDelay");
                 move_button = false;
             }
+
+            player.transform.position = new Vector3(player_target.transform.position.x, player.transform.position.y, player_target.transform.position.z);
         }
     }
 
@@ -110,9 +112,11 @@ public class Button_Door: MonoBehaviour {
 
             if (door_left.transform.position == door_left_target.transform.position && door_right.transform.position == door_right_target.transform.position)
             {
-                StartCoroutine("PlayerRestartDelay");
+                player.GetComponent<characterControls>().canInput = true;
                 move_doors = false;
             }
+
+            player.transform.position = new Vector3(player_target.transform.position.x, player.transform.position.y, player_target.transform.position.z);
         }
     }
 
@@ -124,6 +128,14 @@ public class Button_Door: MonoBehaviour {
     public void SetColourGreen()
     {
         this.GetComponent<MeshRenderer>().material = m_Green;
+    }
+
+    public void DoorCam()
+    {
+        main_camera.SetActive(false);
+        door_camera.SetActive(true);
+
+        door_camera.GetComponent<DoorCam_Controls>().setDoorCamActive();
     }
 
     IEnumerator ButtonDelay()
@@ -141,10 +153,7 @@ public class Button_Door: MonoBehaviour {
 	IEnumerator PlayerRestartDelay()
 	{
 		yield return new WaitForSeconds (1f);
-		//main_camera.GetComponent<MainCamController> ().CameraReset();
-		//player_character.GetComponent<Character_Movement>().SetInteraction (false);
-		//player_character.GetComponent<Character_Movement>().SetDisabled (false);
-	}
+    }
     IEnumerator CamDelay()
     {
         yield return new WaitForSeconds(1.5f);
