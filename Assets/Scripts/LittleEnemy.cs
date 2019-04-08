@@ -10,8 +10,6 @@ public class LittleEnemy : MonoBehaviour
     public CharacterController ccPlayer;
     public Transform firePoint;
     public Animator anim;
-    public Image win;
-    public Image lose;
 
     //uneditedable attributes
     int noOfHits;
@@ -229,9 +227,6 @@ public class LittleEnemy : MonoBehaviour
             anim.SetBool("run", false);
             anim.SetBool("attack_03", true);
             yield return new WaitForSeconds(1);
-            //var moveDirection = player.transform.position - transform.position;
-            ////characterControls stats = 
-            //ccPlayer.SimpleMove(moveDirection * 1);
             characterControls.health -= attackDamage;
             anim.SetBool("attack_03", false);
             if (!dead && !dizzy)
@@ -277,21 +272,25 @@ public class LittleEnemy : MonoBehaviour
 
     IEnumerator TakeDamage()
     {
-        yield return new WaitForSeconds(0.5f);
-        anim.SetBool("run", false);
-        anim.SetBool("walk", false);
-        anim.SetBool("idle", false);
-        anim.SetBool("attack_03", false);
-        anim.SetBool("damage", true);
-
-        canAttack = false;
-        yield return new WaitForSeconds(0.5f);
-        anim.SetBool("damage", false);
-        if (!dead)
+        if(characterControls.weaponCollected)
         {
-            anim.SetBool("idle", true);
-        }
+               yield return new WaitForSeconds(0.5f);
+                anim.SetBool("run", false);
+                anim.SetBool("walk", false);
+                anim.SetBool("idle", false);
+                anim.SetBool("attack_03", false);
+                anim.SetBool("damage", true);
 
-        canAttack = true;
+                canAttack = false;
+                yield return new WaitForSeconds(0.5f);
+                anim.SetBool("damage", false);
+                if (!dead)
+                {
+                    anim.SetBool("idle", true);
+                }
+
+                canAttack = true;
+        }
+ 
     }
 }

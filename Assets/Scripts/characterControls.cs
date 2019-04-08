@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class characterControls : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class characterControls : MonoBehaviour
     public float attackCoolDownTime;
     public float attackCoolDownTimeMain;
     public static bool isAttacking;
+    public Text scoreText;
+    public GameObject weapon;
 
     //CAMERA
     public Transform cam;
@@ -29,7 +32,7 @@ public class characterControls : MonoBehaviour
     public float speed = 15;
     Vector3 intent;
     public static Vector3 velocity;
-    Vector3 velocityXZ;
+    Vector3 velocityXZ; 
     public float accel = 15;
     public float jumpVel = 20;
     float turnSpeed = 20;
@@ -38,13 +41,13 @@ public class characterControls : MonoBehaviour
      bool jumped;
 
     //GRAVITY
-    float grav = 10;
+    float grav = 20;
     bool grounded = false;
 
     // Collectables
     public static bool keyCollected = false;
     public static bool weaponCollected = false;
-    public static bool doubleJumpActive = true;
+    public static bool doubleJumpActive = false;
     public static bool doubleSpeedActive = false;
     public static bool doubleSpeedPickedUp = false;
     public static bool doubleStrengthActive = false;
@@ -58,6 +61,10 @@ public class characterControls : MonoBehaviour
         attackCoolDownTime = 0f;
     }
 
+    void SetCountText()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -166,7 +173,10 @@ public class characterControls : MonoBehaviour
             }
 
             //anim.SetBool("Running", true);
-
+            if(!grounded)
+            {
+                anim.SetBool("Running", false);
+            }
         }
         else if(input.magnitude <= 0 && grounded)
         {
@@ -199,39 +209,38 @@ public class characterControls : MonoBehaviour
     {
         if (grounded)
         {
-            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped)
+            if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped))
             {
+                Debug.Log("jump");
                 velocity.y = jumpVel;
                 anim.SetBool("Jump", true);
                 anim.SetBool("Running", false);
                 jumped = true;
             }
-            //else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped && input.magnitude >0)
-            //{
-            //    velocity.y = jumpVel;
-            //    anim.SetBool("Jump", true);
-            //    anim.SetBool("Running", false);
-            //    jumped = true;
-            //}
         }
-        else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && doubleJumpActive && jumped)
+        else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0)  && jumped)
         {
-            anim.SetBool("DoubleJump", true);
-            velocity.y = jumpVel + 20;
+            if(doubleJumpActive == true)
+            {
+                 Debug.Log(doubleJumpActive);
+                 Debug.Log("double jump");
+                 anim.SetBool("DoubleJump", true);
+                 velocity.y = jumpVel + 20;
+            }
         }
     }
 
     void DoAttack()
     {
-        if(attackCoolDownTime > 0)
-        {
-            attackCoolDownTime -= Time.deltaTime;
-        }
-        else if(Input.GetButtonDown("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2))
-        {
-            attackCoolDownTime = attackCoolDownTimeMain;
-            StartCoroutine(Attack1());
-        }
+            if (attackCoolDownTime > 0)
+            {
+                attackCoolDownTime -= Time.deltaTime;
+            }
+            else if (Input.GetButtonDown("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2))
+            {
+                attackCoolDownTime = attackCoolDownTimeMain;
+                StartCoroutine(Attack1());
+            }
     }
 
     IEnumerator Attack1()
@@ -240,7 +249,6 @@ public class characterControls : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         isAttacking = false;
         anim.SetBool("Attack1", true);
-        
         yield return new WaitForSeconds(1);
         anim.SetBool("Attack1", false);
         
@@ -264,6 +272,7 @@ public class characterControls : MonoBehaviour
 
         if(other.gameObject.CompareTag("Weapon"))
         {
+            weapon.SetActive(true);
             Destroy(other.gameObject);
             weaponCollected = true;
         }
@@ -291,6 +300,7 @@ public class characterControls : MonoBehaviour
             other.gameObject.SetActive(false);
             other.gameObject.tag = "DestroyedGem";
             score ++;
+            SetCountText();
         }
 
     }

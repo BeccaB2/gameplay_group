@@ -304,21 +304,25 @@ public class Enemy : MonoBehaviour
 
     IEnumerator TakeDamage()
     {
-        yield return new WaitForSeconds(0.5f);
-        anim.SetBool("run", false);
-        anim.SetBool("walk", false);
-        anim.SetBool("idle", false);
-        anim.SetBool("attack_03", false);
-        anim.SetBool("damage", true);
-
-        canAttack = false;
-        yield return new WaitForSeconds(0.5f);
-        anim.SetBool("damage", false);
-        if (!dead)
+        if(characterControls.weaponCollected)
         {
-            anim.SetBool("idle", true);
+            yield return new WaitForSeconds(0.5f);
+            anim.SetBool("run", false);
+            anim.SetBool("walk", false);
+            anim.SetBool("idle", false);
+            anim.SetBool("attack_03", false);
+            anim.SetBool("damage", true);
+
+            canAttack = false;
+            yield return new WaitForSeconds(0.5f);
+            anim.SetBool("damage", false);
+            if (!dead)
+            {
+                anim.SetBool("idle", true);
+            }
+
+            canAttack = true;
         }
 
-        canAttack = true;
     }
 }

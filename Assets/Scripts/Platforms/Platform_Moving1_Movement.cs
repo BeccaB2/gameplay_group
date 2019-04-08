@@ -116,7 +116,7 @@ public class Platform_Moving1_Movement : MonoBehaviour {
 	void OnTriggerEnter (Collider other)
 	{
         
-         if (other.gameObject == player)
+         if (other.tag == "Player")
          {
              player.transform.parent = this.transform;
              if (!constant)

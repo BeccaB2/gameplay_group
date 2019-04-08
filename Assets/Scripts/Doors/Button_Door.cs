@@ -48,12 +48,12 @@ public class Button_Door: MonoBehaviour {
 
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.gameObject == player)
+		if (other.tag == "Player")
 		{
 			Debug.Log ("Player Enter Door Trigger");
 		}
 
-        if (other.gameObject == player && interaction && characterControls.keyCollected == false && !trigger_key)
+        if (other.tag == "Player" && interaction && characterControls.keyCollected == false && !trigger_key)
         {
             main_camera.SetActive(false);
             key_camera.SetActive(true);
@@ -61,10 +61,10 @@ public class Button_Door: MonoBehaviour {
             StartCoroutine("CamDelay");
         }
 
-            if (other.gameObject == player && interaction && !triggered && characterControls.keyCollected == true)
+            if (other.tag == "Player" && interaction && !triggered && characterControls.keyCollected == true)
 		{
             float desiredAngle = transform.eulerAngles.y;
-            player.GetComponent<characterControls>().canInput = false;
+            other.GetComponent<characterControls>().canInput = false;
             player.transform.position = new Vector3(player_target.transform.position.x, player.transform.position.y, player_target.transform.position.z);
             player.transform.rotation = Quaternion.Euler(0, desiredAngle, 0);
             DoorCam();

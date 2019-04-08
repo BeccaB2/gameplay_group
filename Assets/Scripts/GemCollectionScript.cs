@@ -35,7 +35,6 @@ public class GemCollectionScript : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        Debug.Log(gemCountS1);
 
         // Retrieves current scene
         Scene currentScene = SceneManager.GetActiveScene();
