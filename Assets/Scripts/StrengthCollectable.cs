@@ -8,10 +8,10 @@ public class StrengthCollectable : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        if (characterControls.doubleStrengthActive == true)
-        {
-            Destroy(gameObject);
-        }
+        //if (characterControls.doubleStrengthActive == true)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 	
 	// Update is called once per frame

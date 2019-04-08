@@ -1117,10 +1117,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3926a1623eff194c827efdaf753b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene1: StarterIsland
-  scene2: MiddlePark
-  scene3: 
-  S1Gems: []
+  scene1: StarterIsland_Jake
+  scene2: MiddlePark_Jake
+  scene3: BossLevel
 --- !u!4 &503786555
 Transform:
   m_ObjectHideFlags: 0
@@ -2643,6 +2642,21 @@ Prefab:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 55756784}
+    - target: {fileID: 114349090104308912, guid: c8d49055e3ca83947ac65c373909449a,
+        type: 2}
+      propertyPath: scene1
+      value: StarterIsland_Jake
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349090104308912, guid: c8d49055e3ca83947ac65c373909449a,
+        type: 2}
+      propertyPath: scene2
+      value: MiddlePark_Jake
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349090104308912, guid: c8d49055e3ca83947ac65c373909449a,
+        type: 2}
+      propertyPath: scene3
+      value: BossLevel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8d49055e3ca83947ac65c373909449a, type: 2}
   m_IsPrefabAsset: 0
@@ -4250,7 +4264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d222bb6fffb2d46b07abe0b3ac86e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: MiddlePark
+  scene: MiddlePark_Jake
 --- !u!65 &2020255760
 BoxCollider:
   m_ObjectHideFlags: 0

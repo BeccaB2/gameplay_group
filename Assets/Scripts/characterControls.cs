@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class characterControls : MonoBehaviour
 {
@@ -50,9 +51,13 @@ public class characterControls : MonoBehaviour
     public static bool doubleJumpActive = true;
     public static bool doubleSpeedActive = false;
     public static bool doubleSpeedPickedUp = false;
-    public static bool doubleStrengthActive = false;
+    // public static bool doubleStrengthActive = false;
     public static int noOfEnemiesKilled = 0;
     public static int score = 0;
+
+    // Check scene
+    public string scene1;
+    public string scene2;
 
     // Use this for initialization
     void Start()
@@ -68,7 +73,8 @@ public class characterControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0 && !dead)
+        SetCountText();
+        if (health <= 0 && !dead)
         {
             dead = true;
             velocity = new Vector3(0,0,0);
@@ -287,21 +293,34 @@ public class characterControls : MonoBehaviour
             StartCoroutine(SpeedRoutine());
         }
 
-        if (other.gameObject.CompareTag("DStrength"))
-        {
-            Destroy(other.gameObject);
-            doubleStrengthActive = true;
+        //if (other.gameObject.CompareTag("DStrength"))
+        //{
+        //    Destroy(other.gameObject);
+        //    doubleStrengthActive = true;
         
-            // Timed
-        }
+        //    // Timed
+        //}
 
         if (other.gameObject.CompareTag("Gem"))
         {
             //other.GetComponent<PickedUp>().picked_up = true;
             other.gameObject.SetActive(false);
-            other.gameObject.tag = "DestroyedGem";
+            //other.gameObject.tag = "DestroyedGem";
             score ++;
             SetCountText();
+
+            Scene currentScene = SceneManager.GetActiveScene();
+            string sceneName = currentScene.name;
+
+            if (sceneName == scene1)
+            {
+                GemCollectionScript.gemCountS1--;
+            }
+
+            if (sceneName == scene2)
+            {
+                GemCollectionScript.gemCountS2--;
+            }
         }
 
     }
