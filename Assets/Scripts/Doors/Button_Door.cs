@@ -5,7 +5,8 @@ using UnityEngine;
 public class Button_Door: MonoBehaviour {
 
     //Button Materials
-    public Material m_pressed;
+    public Material m_Red;
+    public Material m_Green;
 
     //doors
     public GameObject door_left;
@@ -22,12 +23,14 @@ public class Button_Door: MonoBehaviour {
 
     //cameras
     public GameObject main_camera;
+    public GameObject key_camera;
 
-	private GameObject player;
+    private GameObject player;
 
 	private bool interaction = false;
 	private bool move_doors = false;
 	private bool move_button = false;
+    private bool trigger_key = false;
 	private bool triggered = false;
 
 	private float door_speed = 7.5f;
@@ -49,7 +52,15 @@ public class Button_Door: MonoBehaviour {
 			Debug.Log ("Player Enter Door Trigger");
 		}
 
-		if (other.gameObject == player && interaction && !triggered)
+        if (other.gameObject == player && interaction && characterControls.keyCollected == false && !trigger_key)
+        {
+            main_camera.SetActive(false);
+            key_camera.SetActive(true);
+            trigger_key = true;
+            StartCoroutine("CamDelay");
+        }
+
+            if (other.gameObject == player && interaction && !triggered && characterControls.keyCollected == true)
 		{
             float desiredAngle = transform.eulerAngles.y;
             //player_character.GetComponent<Character_Movement>().SetDisabled (true);
@@ -57,7 +68,7 @@ public class Button_Door: MonoBehaviour {
             player.transform.rotation = Quaternion.Euler(0, desiredAngle, 0);
             //main_camera.GetComponent<MainCamController>().SetDoorCam(1);
             StartCoroutine("ButtonDelay");
-			triggered = true;
+            triggered = true;
         }
 	}
 
@@ -67,7 +78,12 @@ public class Button_Door: MonoBehaviour {
 
         MoveButton();
         MoveDoors(delta_speed);
-	}
+
+        if (characterControls.keyCollected == true && !triggered)
+        {
+            SetColourGreen();
+        }
+    }
 
     private void MoveButton()
     {
@@ -78,7 +94,7 @@ public class Button_Door: MonoBehaviour {
             if (button.transform.position == button_target.transform.position)
             {
                 //	main_camera.GetComponent<MainCamController>().SetDoorCam(2);
-                this.GetComponent<MeshRenderer>().material = m_pressed;
+                SetColourRed();
                 StartCoroutine("DoorDelay");
                 move_button = false;
             }
@@ -100,7 +116,17 @@ public class Button_Door: MonoBehaviour {
         }
     }
 
-	IEnumerator ButtonDelay()
+    public void SetColourRed()
+    {
+        this.GetComponent<MeshRenderer>().material = m_Red;
+    }
+
+    public void SetColourGreen()
+    {
+        this.GetComponent<MeshRenderer>().material = m_Green;
+    }
+
+    IEnumerator ButtonDelay()
 	{
 		yield return new WaitForSeconds (0.075f);
         move_button = true;
@@ -119,4 +145,11 @@ public class Button_Door: MonoBehaviour {
 		//player_character.GetComponent<Character_Movement>().SetInteraction (false);
 		//player_character.GetComponent<Character_Movement>().SetDisabled (false);
 	}
+    IEnumerator CamDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        key_camera.SetActive(false);
+        main_camera.SetActive(true);
+        trigger_key = false;
+    }
 }

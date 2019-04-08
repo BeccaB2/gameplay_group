@@ -76,7 +76,7 @@ public class Platform_Lift1_Movement : MonoBehaviour {
 
 	IEnumerator PlatformDelay()
 	{
-		yield return new WaitForSeconds (0.75f);
+		yield return new WaitForSeconds (0.4f);
 		platform_move = true;
 	}
 
