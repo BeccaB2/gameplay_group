@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeecCollectable : MonoBehaviour
+public class SpeedCollectable : MonoBehaviour
 {
 
 	// Use this for initialization
 	void Start ()
     {
-        if (characterControls.doubleSpeedActive == true)
+        if (characterControls.doubleSpeedPickedUp == true)
         {
             Destroy(gameObject);
         }

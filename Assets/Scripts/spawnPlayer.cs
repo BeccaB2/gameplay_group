@@ -9,7 +9,6 @@ public class spawnPlayer : MonoBehaviour {
     private Vector3 spawnPos;
     private Vector3 spawnRot;
 
-
     // Use this for initialization
     void Start ()
     {

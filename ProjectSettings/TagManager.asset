@@ -12,6 +12,7 @@ TagManager:
   - Gem
   - DestroyedGem
   - Enemy
+  - Spline
   layers:
   - Default
   - TransparentFX
