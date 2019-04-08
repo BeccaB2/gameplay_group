@@ -12,6 +12,10 @@ public class characterControls : MonoBehaviour
     public CharacterController controller;
     public Animator anim;
     public GameObject player;
+    public bool canInput;
+    public GameObject dustCloud;
+    public GameObject runCloud;
+    public static bool dead;
 
     //CAMERA
     public Transform cam;
@@ -28,6 +32,7 @@ public class characterControls : MonoBehaviour
     float turnSpeed = 20;
     float turnSpeedLow = 22;
     float turnSpeedHigh = 30;
+     bool jumped;
 
     //GRAVITY
     float grav = 10;
@@ -36,7 +41,7 @@ public class characterControls : MonoBehaviour
     // Collectables
     public static bool keyCollected = false;
     public static bool weaponCollected = false;
-    public static bool doubleJumpActive = false;
+    public static bool doubleJumpActive = true;
     public static bool doubleSpeedActive = false;
     public static bool doubleStrengthActive = false;
 
@@ -45,22 +50,32 @@ public class characterControls : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        canInput = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(health <= 0 && !dead)
+        {
+            dead = true;
+            anim.SetTrigger("dead");
+        }
+
         ManageInput();
         CalculateCamera();
         CalculateGround();
-        DoMove();
-        DoGravity();
-        DoJump();
-        DoAttack();
-
+        if(canInput && !dead)
+        {
+            DoMove();
+            DoGravity();
+            DoJump();
+            DoAttack();
+        }
+        
         controller.Move(velocity * Time.deltaTime);
 
-        Debug.Log("Gems =" + score);
+        //Debug.Log("Gems =" + score);
         //Debug.Log(health);
 
         //if (keyCollected == true)
@@ -91,15 +106,25 @@ public class characterControls : MonoBehaviour
         if (Physics.Raycast(player.transform.position + Vector3.up * 0.1f, -Vector3.up, out hit, 0.2f))
         {
             grounded = true;
-
+            Enemy.canMove = true;
+            
             if (anim.GetBool("Jump") == true)
             {
+                Instantiate(dustCloud, transform.position, dustCloud.transform.rotation);
                 anim.SetBool("Jump", false);
             }
+            
+            if(anim.GetBool("DoubleJump") == true)
+            {
+                anim.SetBool("DoubleJump", false);
+            }
+            jumped = false;
         }
         else
         {
             grounded = false;
+            Enemy.canMove = false;
+            
         }
     }
 
@@ -113,16 +138,21 @@ public class characterControls : MonoBehaviour
 
         if (input.magnitude > 0)
         {
-            //Debug.Log("yes");
+            if (grounded)
+            {
+                Instantiate(runCloud, transform.position, runCloud.transform.rotation);
+                anim.SetBool("Running", true);
+            } 
             Quaternion rot = Quaternion.LookRotation(intent);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rot, Time.deltaTime * turnSpeed);
-            anim.SetBool("Running", true);
-            
         }
-        else
+        else if(input.magnitude <= 0 && grounded)
         {
+
             anim.SetBool("Running", false);
+
         }
+
 
         velocityXZ = velocity;
         velocityXZ.y = 0;
@@ -149,17 +179,24 @@ public class characterControls : MonoBehaviour
     {
         if (grounded)
         {
-            if (Input.GetButtonDown("Jump") || Input.GetKey(KeyCode.Joystick1Button0))
+            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped)
             {
                 velocity.y = jumpVel;
                 anim.SetBool("Jump", true);
+                anim.SetBool("Running", false);
+                jumped = true;
             }
+        }
+        else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && doubleJumpActive && jumped)
+        {
+            anim.SetBool("DoubleJump", true);
+            velocity.y = jumpVel + 20;
         }
     }
 
     void DoAttack()
     {
-        if(Input.GetButtonDown("Attack1"))
+        if(Input.GetButtonDown("Attack1") || Input.GetKey(KeyCode.Joystick1Button2))
         {
             StartCoroutine(Attack1());
         }
