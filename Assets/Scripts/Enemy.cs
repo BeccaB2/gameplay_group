@@ -293,6 +293,11 @@ public class Enemy : MonoBehaviour
         anim.SetBool("die", true);
         canMove = false;
         dead = true;
+        //yield return new WaitForSeconds(1.5f);
+        //for(int i = 0; i<10; i++)
+        //{
+        //    Instantiate(gem, origin + Vector3.right * Random.Range(-1, 1), Quaternion.identity);
+        //}
         
     }
 

@@ -168,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 116042713}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.05, y: 0, z: -6.23}
+  m_LocalPosition: {x: 5.41, y: 0, z: -3.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 787511950}
@@ -870,7 +870,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 787511949}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.46, y: 8.55, z: -27.53}
+  m_LocalPosition: {x: 41.46, y: 8.66, z: -12.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1845391134}
@@ -901,6 +901,7 @@ MonoBehaviour:
   anim: {fileID: 828874156}
   win: {fileID: 756985088}
   lose: {fileID: 851094009}
+  gem: {fileID: 1461978636161230, guid: 657680d6ec46f2b47a29a2b9c1b8439f, type: 2}
   points:
   - {fileID: 1845391134}
   - {fileID: 116042714}
@@ -1103,7 +1104,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100182, guid: 1cac1bc7c0b44384187d348774e300d4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cac1bc7c0b44384187d348774e300d4, type: 3}
@@ -1257,7 +1258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &851373082
 Transform:
   m_ObjectHideFlags: 0
@@ -1554,6 +1555,7 @@ MonoBehaviour:
   player: {fileID: 1009516425}
   firePoint: {fileID: 1100747552}
   anim: {fileID: 1249665303}
+  gem: {fileID: 1461978636161230, guid: 657680d6ec46f2b47a29a2b9c1b8439f, type: 2}
   points:
   - {fileID: 860661179}
   - {fileID: 329845029}
@@ -1867,7 +1869,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100182, guid: 1cac1bc7c0b44384187d348774e300d4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cac1bc7c0b44384187d348774e300d4, type: 3}
@@ -1886,7 +1888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1662208859
 Transform:
   m_ObjectHideFlags: 0
@@ -2007,6 +2009,7 @@ MonoBehaviour:
   player: {fileID: 1009516425}
   firePoint: {fileID: 1100747552}
   anim: {fileID: 1664900915}
+  gem: {fileID: 1461978636161230, guid: 657680d6ec46f2b47a29a2b9c1b8439f, type: 2}
   points:
   - {fileID: 640131544}
   - {fileID: 1910511465}

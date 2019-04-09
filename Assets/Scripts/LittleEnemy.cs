@@ -9,6 +9,7 @@ public class LittleEnemy : MonoBehaviour
     public GameObject player;
     public Transform firePoint;
     public Animator anim;
+    public GameObject gem;
 
     //uneditedable attributes
     int noOfHits;
@@ -249,9 +250,12 @@ public class LittleEnemy : MonoBehaviour
         anim.SetBool("damage", false);
         anim.SetBool("attack_03", false);
         anim.SetBool("die", true);
+        
         //yield return new WaitForSeconds();
         canMove = false;
         dead = true;
+        yield return new WaitForSeconds(1.5f);
+        Instantiate(gem, transform.position + new Vector3(0,1,0), transform.rotation);
     }
 
     IEnumerator Dizzy()
