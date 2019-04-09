@@ -913,9 +913,10 @@ MonoBehaviour:
   attackCoolDownTimeMain: 5
   despawnTime: 25
   attackDamage: 15
-  health: 0
+  health: 5
   maxHealth: 5
   thrust: 10
+  trigger: 0
 --- !u!65 &828874153
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1256,7 +1257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &851373082
 Transform:
   m_ObjectHideFlags: 0
@@ -1885,7 +1886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1662208859
 Transform:
   m_ObjectHideFlags: 0

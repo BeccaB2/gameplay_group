@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     private Vector3 origin;
     private Vector3 direction;
     private float currentHitDistance;
-    private static bool dead;
+    private bool dead;
     private bool retreat;
     public static bool canMove;
     private bool dizzy;
@@ -44,6 +44,8 @@ public class Enemy : MonoBehaviour
     public int maxHealth;
     public float thrust = 10f;
     float timer = 5;
+    float timermain = 5;
+    public bool trigger;
 
 
     // Use this for initialization
@@ -59,22 +61,24 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log(noOfHits);
 
-        //if (dizzy && !dead)
-        //{
-        //    if(timer > 0)
-        //    {
-        //        Debug.Log(timer);
-        //        timer -= Time.deltaTime;
-        //    }
-        //    else
-        //    {
-        //        dizzy = false;
-        //        noOfHits = 0;
-        //        anim.SetBool("dizzy", false);
-        //        canMove = true;
-        //    }
-        //}
-        Debug.Log(canMove);
+        if (dizzy && !dead)
+        {
+            if (timer > 0)
+            {
+                Debug.Log(timer);
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                timer = timermain;
+                dizzy = false;
+                noOfHits = 0;
+                anim.SetBool("dizzy", false);
+                canMove = true;
+            }
+        }
+        //Debug.Log(canMove);
+
         if (characterControls.dead)
         {
             anim.SetBool("idle", false);
@@ -90,11 +94,9 @@ public class Enemy : MonoBehaviour
             DetectAttack();
         }
 
-
-        if (dead)
+        if (dead && !trigger)
         {
-            //canMove = false;
-            //anim.SetBool("die", true);
+            trigger = true;
             win.enabled = true;
             Destroy(gameObject, despawnTime);
         }
@@ -124,7 +126,7 @@ public class Enemy : MonoBehaviour
 
     void DetectAttack()
     {
-        if ((Input.GetButtonDown("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !dead))
+        if ((Input.GetButtonDown("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !dead) && characterControls.isAttacking)
         {
             noOfHits += 1;
 
@@ -202,10 +204,11 @@ public class Enemy : MonoBehaviour
                 transform.LookAt(player.transform);
             }
 
+
             if (distance < 5)
             {
                 anim.SetBool("run", false);
-                canMove = false;
+
                 if (attackCoolDownTime > 0)
                 {
                     attackCoolDownTime -= Time.deltaTime * speed;
@@ -213,7 +216,7 @@ public class Enemy : MonoBehaviour
                 else if (!dizzy)
                 {
                     attackCoolDownTime = attackCoolDownTimeMain;
-                    if (anim.GetBool("run") == false && !gettingAttacked)
+                    if (anim.GetBool("run") == false)
                     {
                         StartCoroutine(Attack());
                     }
@@ -248,6 +251,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     IEnumerator Attack()
     {
         characterControls stats = player.GetComponent<characterControls>();
@@ -267,7 +271,7 @@ public class Enemy : MonoBehaviour
             {
                 anim.SetBool("idle", true);
             }
-            gettingAttacked = false;
+            //gettingAttacked = false;
         }
     }
 
@@ -287,11 +291,9 @@ public class Enemy : MonoBehaviour
         anim.SetBool("damage", false);
         anim.SetBool("attack_03", false);
         anim.SetBool("die", true);
-        //yield return new WaitForSeconds();
-        Debug.Log(anim.GetBool("die"));
-        dizzy = false;
         canMove = false;
         dead = true;
+        
     }
 
     IEnumerator Dizzy()
