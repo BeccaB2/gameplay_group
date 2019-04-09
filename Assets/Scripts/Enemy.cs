@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
     public float attackCoolDownTimeMain;
     public float despawnTime = 10f;
     public int attackDamage = 5;
-    int health;
+    public int health;
     public int maxHealth;
     public float thrust = 10f;
     float timer = 5;
@@ -57,22 +57,24 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(dizzy && !dead)
-        {
-            if(timer > 0)
-            {
-                Debug.Log(timer);
-                timer -= Time.deltaTime;
-            }
-            else
-            {
-                dizzy = false;
-                noOfHits = maxHealth;
-                anim.SetBool("dizzy", false);
-                canMove = true;
-            }
-        }
-        //Debug.Log(canMove);
+        Debug.Log(noOfHits);
+
+        //if (dizzy && !dead)
+        //{
+        //    if(timer > 0)
+        //    {
+        //        Debug.Log(timer);
+        //        timer -= Time.deltaTime;
+        //    }
+        //    else
+        //    {
+        //        dizzy = false;
+        //        noOfHits = 0;
+        //        anim.SetBool("dizzy", false);
+        //        canMove = true;
+        //    }
+        //}
+        Debug.Log(canMove);
         if (characterControls.dead)
         {
             anim.SetBool("idle", false);
@@ -91,6 +93,8 @@ public class Enemy : MonoBehaviour
 
         if (dead)
         {
+            //canMove = false;
+            //anim.SetBool("die", true);
             win.enabled = true;
             Destroy(gameObject, despawnTime);
         }
@@ -120,7 +124,7 @@ public class Enemy : MonoBehaviour
 
     void DetectAttack()
     {
-        if (characterControls.isAttacking && canAttack && !dead)
+        if ((Input.GetButtonDown("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !dead))
         {
             noOfHits += 1;
 
@@ -247,7 +251,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Attack()
     {
         characterControls stats = player.GetComponent<characterControls>();
-        if (!dizzy || !dead)
+        if (!dizzy || !dead || !characterControls.isAttacking)
         {
             gettingAttacked = true;
             anim.SetBool("idle", false);
@@ -284,6 +288,7 @@ public class Enemy : MonoBehaviour
         anim.SetBool("attack_03", false);
         anim.SetBool("die", true);
         //yield return new WaitForSeconds();
+        Debug.Log(anim.GetBool("die"));
         dizzy = false;
         canMove = false;
         dead = true;

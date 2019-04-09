@@ -47,7 +47,7 @@ public class characterControls : MonoBehaviour
 
     // Collectables
     public static bool keyCollected = false;
-    public static bool weaponCollected = false;
+    public static bool weaponCollected = true;
     public static bool doubleJumpActive = true;
     public static bool doubleSpeedActive = false;
     public static bool doubleSpeedPickedUp = false;
@@ -217,28 +217,50 @@ public class characterControls : MonoBehaviour
         {
             if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0) && !jumped))
             {
-                Debug.Log("jump");
-                velocity.y = jumpVel;
-                anim.SetBool("Jump", true);
-                anim.SetBool("Running", false);
-                jumped = true;
+                if(input.magnitude>0)
+                {
+                      Debug.Log("jump");
+                      velocity.y = jumpVel;
+                       anim.SetBool("Jump", true);
+                       anim.SetBool("Running", false);
+                       jumped = true;
+                }
+                else
+                {
+                    Debug.Log("jump");
+                    velocity.y = jumpVel;
+                    anim.SetBool("Jump", true);
+                    anim.SetBool("Running", false);
+                    jumped = true;
+                }
+               
             }
         }
         else if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button0)  && jumped)
         {
             if(doubleJumpActive == true)
             {
-                 Debug.Log(doubleJumpActive);
+                if (input.magnitude > 0)
+                {
+                    Debug.Log(doubleJumpActive);
+                    Debug.Log("double jump");
+                    anim.SetBool("jump", false);
+                    anim.SetBool("DoubleJump", true);
+                    velocity.y = jumpVel + 40;
+                }
+
+                Debug.Log(doubleJumpActive);
                  Debug.Log("double jump");
+                anim.SetBool("jump", false);
                  anim.SetBool("DoubleJump", true);
-                 velocity.y = jumpVel + 20;
+                 velocity.y = jumpVel + 40;
             }
         }
     }
 
     void DoAttack()
     {
-        Debug.Log(noOfEnemiesKilled);
+        //Debug.Log(noOfEnemiesKilled);
             if (attackCoolDownTime > 0)
             {
                 attackCoolDownTime -= Time.deltaTime;
@@ -253,7 +275,7 @@ public class characterControls : MonoBehaviour
     IEnumerator Attack1()
     {
         isAttacking = true;
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.001f);
         isAttacking = false;
         anim.SetBool("Attack1", true);
         yield return new WaitForSeconds(1);
