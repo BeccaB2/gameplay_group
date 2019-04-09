@@ -23,6 +23,7 @@ public class characterControls : MonoBehaviour
     public static bool isAttacking;
     public Text scoreText;
     public GameObject weapon;
+    public Text dj;
 
     //CAMERA
     public Transform cam;
@@ -47,8 +48,8 @@ public class characterControls : MonoBehaviour
 
     // Collectables
     public static bool keyCollected = false;
-    public static bool weaponCollected = true;
-    public static bool doubleJumpActive = true;
+    public static bool weaponCollected = false;
+    public static bool doubleJumpActive = false;
     public static bool doubleSpeedActive = false;
     public static bool doubleSpeedPickedUp = false;
     // public static bool doubleStrengthActive = false;
@@ -96,7 +97,7 @@ public class characterControls : MonoBehaviour
 
         if (doubleSpeedActive == true)
         {
-            speed = 30;
+            speed = 60;
         }
         else
         {
@@ -282,13 +283,20 @@ public class characterControls : MonoBehaviour
         anim.SetBool("Attack1", false);
         
     }
-
+        IEnumerator turnOffDJ()
+            {
+                yield return new WaitForSeconds(2);
+                dj.enabled = false;
+            }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Key"))
         {
             // Checks if player hits collectable & deletes it
             Destroy(other.gameObject);
+            dj.text = "Key Picked Up!";
+            dj.enabled = true;
+            StartCoroutine(turnOffDJ());
             keyCollected = true;
         }
 
@@ -296,19 +304,27 @@ public class characterControls : MonoBehaviour
         {
             // Checks if player hits collectable & deletes it
             Destroy(other.gameObject);
+            dj.text = "Double Jump Picked Up!";
+            dj.enabled = true;
+            StartCoroutine(turnOffDJ());
             doubleJumpActive = true;
         }
+
+        
 
         if(other.gameObject.CompareTag("Weapon"))
         {
             weapon.SetActive(true);
             Destroy(other.gameObject);
+            dj.text = "Weapon Picked Up!";
+            dj.enabled = true;
+            StartCoroutine(turnOffDJ());
             weaponCollected = true;
         }
 
         if(other.gameObject.CompareTag("DSpeed"))
         {
-            Destroy(other.gameObject);
+            //other.gameObject.SetActive(false);
             doubleSpeedPickedUp = true;
 
             // Timed
@@ -350,7 +366,7 @@ public class characterControls : MonoBehaviour
     IEnumerator SpeedRoutine()
     {
         doubleSpeedActive = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
         doubleSpeedActive = false;
     }
 }

@@ -25,7 +25,7 @@ public class collectGem : MonoBehaviour
 
         if (sceneName == scene2)
         {
-            if (GemCollectionScript.gemCountS2 < 16)
+            if (GemCollectionScript.gemCountS2 < 26)
             {
                 Destroy(gameObject);
             }

@@ -10,7 +10,7 @@ public class GemCollectionScript : MonoBehaviour {
 
     // Checks if all gems are collected in each scene
     public static int gemCountS1 = 12;
-    public static int gemCountS2 = 16;
+    public static int gemCountS2 = 26;
 
     // Use this for initialization
     void Start ()

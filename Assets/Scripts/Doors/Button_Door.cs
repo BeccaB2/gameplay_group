@@ -43,8 +43,8 @@ public class Button_Door: MonoBehaviour {
 	
 	void FixedUpdate()
 	{
-		interaction = Input.GetButton("Attack1");
-	}
+		interaction = Input.GetButton("Attack1") || Input.GetKeyDown(KeyCode.Joystick1Button2);
+    }
 
 	private void OnTriggerStay(Collider other)
 	{

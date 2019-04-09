@@ -12,6 +12,8 @@ public class killEnemy : MonoBehaviour {
     public string scene2 = "MiddlePark_Jake";
     public string scene3 = "BossLevel";
     private string sceneName;
+    public GameObject doubleSpeed;
+    public GameObject secondPlatforms;
     
 
     private void Start()
@@ -19,7 +21,19 @@ public class killEnemy : MonoBehaviour {
         Scene currentScene = SceneManager.GetActiveScene();
         sceneName = currentScene.name;
     }
-    
+
+    private void Update()
+    {
+        if (characterControls.doubleSpeedPickedUp == true)
+        {
+            doubleSpeed.SetActive(false);
+        }
+        else if (characterControls.doubleSpeedPickedUp == false)
+        {
+            doubleSpeed.SetActive(true);
+        }
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,8 +46,9 @@ public class killEnemy : MonoBehaviour {
         if (sceneName == scene2)
         {
             player.transform.position = spawnPoint.transform.position;
-            //respawn spline
-            //respawn collectable
+            characterControls.doubleSpeedPickedUp = false;
+            secondPlatforms.SetActive(true);
+
         }
 
         if(sceneName == scene3)
